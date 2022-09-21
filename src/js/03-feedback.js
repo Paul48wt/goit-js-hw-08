@@ -17,7 +17,7 @@ function onFormTypeText(e) {
 function populateTextarea() {
   if (localStorage.getItem(FORM_KEY)) {
     emailInput.value = storage.load(FORM_KEY).email;
-    messageInput.textContent = storage.load(FORM_KEY).message;
+    messageInput.value = storage.load(FORM_KEY).message;
   }
 }
 
