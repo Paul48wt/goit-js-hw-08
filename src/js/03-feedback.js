@@ -2,28 +2,28 @@ import storage from './storage';
 import throttle from 'lodash.throttle';
 const formData = {};
 const form = document.querySelector('.feedback-form');
-const btnSubmit = document.querySelector('button');
+
 const emailInput = document.querySelector('input');
 const messageInput = document.querySelector('textarea');
 const FORM_KEY = 'feedback-form-state';
-btnSubmit.addEventListener('click', onBtnSubmitClick);
-
-populateTextarea();
 
 form.addEventListener('input', throttle(onFormTypeText, 500));
-
+populateTextarea();
 function onFormTypeText(e) {
   formData[e.target.name] = e.target.value;
   storage.save(FORM_KEY, formData);
 }
 
 function populateTextarea() {
-  if (formData) {
-    console.log(storage.load(FORM_KEY));
+  if (localStorage.getItem(FORM_KEY)) {
+    emailInput.value = storage.load(FORM_KEY).email;
+    messageInput.textContent = storage.load(FORM_KEY).message;
   }
 }
 
-function onBtnSubmitClick(e) {
+form.addEventListener('submit', e => {
   e.preventDefault();
-  form.reset();
-}
+  console.log(storage.load(FORM_KEY));
+  e.currentTarget.reset();
+  storage.remove(FORM_KEY);
+});
