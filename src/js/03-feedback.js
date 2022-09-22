@@ -1,6 +1,9 @@
 import storage from './storage';
 import throttle from 'lodash.throttle';
-const formData = {};
+const formData = {
+  email: '',
+  message: '',
+};
 const form = document.querySelector('.feedback-form');
 
 const emailInput = document.querySelector('input');
@@ -15,8 +18,13 @@ function onFormTypeText(e) {
 }
 
 function populateTextarea() {
-  if (localStorage.getItem(FORM_KEY)) {
+  if (!localStorage.getItem(FORM_KEY)) {
+    return;
+  }
+  if (storage.load(FORM_KEY).email) {
     emailInput.value = storage.load(FORM_KEY).email;
+  }
+  if (storage.load(FORM_KEY).message) {
     messageInput.value = storage.load(FORM_KEY).message;
   }
 }
